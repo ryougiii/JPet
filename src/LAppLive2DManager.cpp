@@ -109,7 +109,7 @@ void LAppLive2DManager::OnFollow() {
     {
         LAppPal::PrintLog("[APP]New Follow");
     }
-    _models[0]->StartRandomMotion(MotionGroupSpecial, PriorityForce, FinishedMotion);
+    // _models[0]->StartRandomMotion(MotionGroupSpecial, PriorityForce, FinishedMotion);
 }
 
 void LAppLive2DManager::PlayTouchAudio(string filename) {
@@ -141,221 +141,16 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
         LAppPal::PrintLog("[APP]tap point: {x:%.2f y:%.2f}", x, y);
     }
     CubismMotionQueueEntryHandle hr;
-    for (csmUint32 i = 0; i < _models.GetSize(); i++)
-    {
-        if (_models[i]->HitTest(HitAreaNameChange, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameChange);
-            }
-            hr = _models[i]->StartMotion(MotionGroupClothChange, _isNew ? 0 : 1, PriorityForce, PartFinishedMotion);
-            if (hr != InvalidMotionQueueEntryHandleValue) _isNew = !_isNew;
-        }
-        else if (_isNew && _models[i]->HitTest(HitAreaNameHat, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameHat);
-            }
-            if (_editMode)
-            {
-                hr = _models[i]->StartMotion(MotionGroupPartChange, HatChangeList[_hatCount % 3], PriorityNormal, PartFinishedMotion);
-                if (hr != InvalidMotionQueueEntryHandleValue) {
-                    _hatCount++;
-                }
-            }
-            else
-            {
-                //TouchMotion
-                if (_hatCount % 3 == 0) { // 是耳朵状态
-                    PlayTouchAudio("t06.mp3");
-                }
-                else { // 帽子或空的状态
-                    PlayRandomTouchAudio();
-                }
-            }
-        }
-        else if (_isNew && _models[i]->HitTest(HitAreaNameEarL, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameEarL);
-            }
-            if (_editMode)
-            {
-                hr = _models[i]->StartMotion(MotionGroupPartChange, EarLChangeList[_earLCount % 2], PriorityNormal, PartFinishedMotion);
-                if (hr != InvalidMotionQueueEntryHandleValue) _earLCount++;
-            }
-            else
-            {
-                hr = _models[i]->StartRandomMotion(MotionGroupTapEar, PriorityNormal, FinishedMotion);
-                if (hr != InvalidMotionQueueEntryHandleValue) {
-                    PlayTouchAudio("t06.mp3");
-                }
-            }
-
-        }
-        else if (_models[i]->HitTest(HitAreaNameWanzi, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameWanzi);
-            }
-            
-            hr = _models[i]->StartMotion(MotionGroupPartChange, EditChangeList[_editMode], PriorityNormal, FinishedMotion);
-            if (hr != InvalidMotionQueueEntryHandleValue) {
-                AudioManager::GetInstance()->Play3dSound(string("Resources/Audio/") + (_editMode ? "d02.mp3" : "d01.mp3"));
-                _editMode = !_editMode;
-            }
-
-        }
-        else if (_models[i]->HitTest(HitAreaNameMouth, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameMouth);
-            }
-            if (_editMode)
-            {
-                hr = _models[i]->StartMotion(MotionGroupMouthChange, _mouthCount % 6, PriorityNormal, PartFinishedMotion);
-                if (hr != InvalidMotionQueueEntryHandleValue) _mouthCount++;
-            }
-
-        }
-        else if (_models[i]->HitTest(HitAreaNameEyes, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameEyes);
-            }
-            if (_editMode)
-            {
-                hr = _models[i]->StartMotion(MotionGroupEyeChange, _eyeCount % 4, PriorityNormal, PartFinishedMotion);
-                if (hr != InvalidMotionQueueEntryHandleValue) _eyeCount++;
-            }
-            else
-            {
-            }
-
-        }
-        else if (_models[i]->HitTest(HitAreaNameHead, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameHead);
-            }
-            if (_editMode)
-            {
-            }
-            else
-            {
-                hr = _models[i]->StartRandomMotion(MotionGroupTapHead, PriorityNormal, FinishedMotion);
-                if (hr != InvalidMotionQueueEntryHandleValue) {
-                    PlayTouchAudio("t01.mp3");
-                }
-            }
-            
-        }
-        else if (_models[i]->HitTest(HitAreaNameArmL, x, y) || _models[i]->HitTest(HitAreaNameArmR, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameArmL);
-            }
-
-            if (_isNew)
-            {
-                if (_editMode)
-                {
-                    hr = _models[i]->StartMotion(MotionGroupPartChange, SleeveChangeList[_sleeveCount % 2], PriorityNormal, PartFinishedMotion);
-                    if (hr != InvalidMotionQueueEntryHandleValue) _sleeveCount++;
-                }
-                else
-                {
-                    hr = _models[i]->StartRandomMotion(MotionGroupTapArm, PriorityNormal, FinishedMotion);
-                    if (hr != InvalidMotionQueueEntryHandleValue) {
-                        PlayTouchAudio("t03.mp3");
-                    }
-                }
-            }
-            else
-            {
-                hr = _models[i]->StartRandomMotion(MotionGroupTapArm, PriorityNormal, FinishedMotion);
-                if (hr != InvalidMotionQueueEntryHandleValue) {
-                    PlayTouchAudio("t03.mp3");
-                }
-            }
-        }
-        else if (_models[i]->HitTest(HitAreaNameBody, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameBody);
-            }
-            if (_editMode)
-            {
-                hr = _models[i]->StartMotion(MotionGroupPartChange, GunChangeList[_gunCount % 2], PriorityNormal, PartFinishedMotion);
-                if (hr != InvalidMotionQueueEntryHandleValue) _gunCount++;
-            }
-            else {
-                PlayTouchAudio("t02.mp3");
-            }
-        }
-        else if (_isNew && _models[i]->HitTest(HitAreaNameLegBelt, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameLegBelt);
-            }
-            if (_editMode)
-            {
-                hr = _models[i]->StartMotion(MotionGroupPartChange, LegBeltChangeList[_legBeltCount % 2], PriorityNormal, PartFinishedMotion);
-                if (hr != InvalidMotionQueueEntryHandleValue) _legBeltCount++;
-            }
-        }
-        else if (!_isNew && _models[i]->HitTest(HitAreaNameLegs, x, y)) // 旧衣服的腿
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameLegs);
-            }
-            if (_editMode)
-            {
-                hr = _models[i]->StartMotion(MotionGroupPartChange, SocksChangeList[_socksCount % 2], PriorityNormal, PartFinishedMotion);
-                if (hr != InvalidMotionQueueEntryHandleValue) _socksCount++;
-            }
-            else {
-                PlayTouchAudio("t04.mp3");
-            }
-        }
-        else if (_isNew && _models[i]->HitTest(HitAreaNameLegs, x, y)) // 新衣服的腿
-        {
-        if (DebugLogEnable)
-        {
-            LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameLegs);
-        }
-        if (_editMode)
-        {
-
-        }
-        else {
-            PlayTouchAudio("t04.mp3");
-        }
-        }
-        else if (_models[i]->HitTest(HitAreaNameTail, x, y))
-        {
-            if (_editMode) 
-            {
-            
-            }
-            else {
-                PlayTouchAudio("t05.mp3");
-            }
-
-        }
-    	// TODO 其它动作
-    }
+    _models[_sceneIndex]->HitTest(x, y);
+    //if (_models[i]->HitTest(HitAreaNameChange, x, y))
+    //{
+    //    if (DebugLogEnable)
+    //    {
+    //        LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameChange);
+    //    }
+    //    hr = _models[i]->StartMotion(MotionGroupClothChange, _isNew ? 0 : 1, PriorityForce, PartFinishedMotion);
+    //    if (hr != InvalidMotionQueueEntryHandleValue) _isNew = !_isNew;
+    //}
 }
 
 void LAppLive2DManager::OnUpdate() const
@@ -405,9 +200,8 @@ void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
     // model3.jsonのパスを決定する.
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと.
     std::string model = ModelDir[index];
-    std::string modelPath = ResourcesPath + model + "/";
-    std::string modelJsonName = ModelDir[index];
-    modelJsonName += ".model3.json";
+    std::string modelPath = ResourcesPath + string("Models/") + model + string("/");
+    std::string modelJsonName = model + ".model3.json";
 
     ReleaseAllModel();
     _models.PushBack(new LAppModel());

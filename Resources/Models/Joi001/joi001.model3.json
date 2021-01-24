@@ -1,0 +1,54 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Joi001.moc3",
+		"Textures": [
+			"Joi001.1024/texture_00.png"
+		],
+		"Physics": "Joi001.physics3.json",
+		"DisplayInfo": "Joi001.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	],
+	"HitAreas": [
+		{
+			"Id": "HitAreaChange",
+			"Name": ""
+		},
+		{
+			"Id": "HitAreaEyes",
+			"Name": "ParamEyeSwitch",
+			"Range": 4
+		},
+		{
+			"Id": "HitAreaFace",
+			"Name": "ParamFaceSwitch",
+			"Range": 4
+		},
+		{
+			"Id": "HitAreaMouth",
+			"Name": "ParamMouthSwitch",
+			"Range": 6
+		},
+		{
+			"Id": "HitAreaBelt",
+			"Name": "ParamGunSwitch",
+			"Range": 2
+		},
+		{
+			"Id": "HitAreaLegs",
+			"Name": "ParamSockSwitch",
+			"Range": 2
+		},
+		{
+			"Id": "HitAreaFeet",
+			"Name": "ParamShoeSwitch",
+			"Range": 2
+		}
+	]
+}

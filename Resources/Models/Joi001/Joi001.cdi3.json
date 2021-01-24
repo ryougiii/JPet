@@ -1,0 +1,271 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "角度 X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "角度 Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "",
+			"Name": "角度 Z"
+		},
+		{
+			"Id": "ParamEyeBlink",
+			"GroupId": "",
+			"Name": "眼睛开闭"
+		},
+		{
+			"Id": "ParamEyeBallX",
+			"GroupId": "",
+			"Name": "眼球 X"
+		},
+		{
+			"Id": "ParamEyeBallY",
+			"GroupId": "",
+			"Name": "眼球 Y"
+		},
+		{
+			"Id": "ParamBrowLY",
+			"GroupId": "",
+			"Name": "左眉上下"
+		},
+		{
+			"Id": "ParamBrowRY",
+			"GroupId": "",
+			"Name": "右眉　上下"
+		},
+		{
+			"Id": "ParamBrowLX",
+			"GroupId": "",
+			"Name": "左眉　左右"
+		},
+		{
+			"Id": "ParamBrowRX",
+			"GroupId": "",
+			"Name": "右眉　左右"
+		},
+		{
+			"Id": "ParamBrowLAngle",
+			"GroupId": "",
+			"Name": "左眉　角度"
+		},
+		{
+			"Id": "ParamBrowRAngle",
+			"GroupId": "",
+			"Name": "右眉　角度"
+		},
+		{
+			"Id": "ParamBrowLForm",
+			"GroupId": "",
+			"Name": "左眉　変形"
+		},
+		{
+			"Id": "ParamBrowRForm",
+			"GroupId": "",
+			"Name": "右眉　変形"
+		},
+		{
+			"Id": "ParamMouthForm",
+			"GroupId": "",
+			"Name": "嘴部　变形"
+		},
+		{
+			"Id": "ParamMouthOpenY",
+			"GroupId": "",
+			"Name": "嘴巴　张开和闭合"
+		},
+		{
+			"Id": "ParamCheek",
+			"GroupId": "",
+			"Name": "脸颊"
+		},
+		{
+			"Id": "ParamBodyAngleX",
+			"GroupId": "",
+			"Name": "身体旋转　X"
+		},
+		{
+			"Id": "ParamBodyAngleY",
+			"GroupId": "",
+			"Name": "身体旋转　Y"
+		},
+		{
+			"Id": "ParamBodyAngleZ",
+			"GroupId": "",
+			"Name": "身体旋转　Z"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "",
+			"Name": "呼吸"
+		},
+		{
+			"Id": "ParamHairFront",
+			"GroupId": "",
+			"Name": "摇动　前发"
+		},
+		{
+			"Id": "ParamHairSide",
+			"GroupId": "",
+			"Name": "摇动　侧发"
+		},
+		{
+			"Id": "ParamHairBack",
+			"GroupId": "",
+			"Name": "摇动　后发"
+		},
+		{
+			"Id": "ParamfrontHairPhy",
+			"GroupId": "",
+			"Name": "frontHairPhy"
+		},
+		{
+			"Id": "ParamMiddleHairPhy",
+			"GroupId": "",
+			"Name": "middleHairPhy"
+		},
+		{
+			"Id": "ParamBackHairPhy",
+			"GroupId": "",
+			"Name": "BackHairPhy"
+		},
+		{
+			"Id": "ParamGunPhy",
+			"GroupId": "",
+			"Name": "GunPhy"
+		},
+		{
+			"Id": "ParamHeadSize",
+			"GroupId": "",
+			"Name": "HeadSize"
+		},
+		{
+			"Id": "ParamGunSwitch",
+			"GroupId": "ParamGroup2",
+			"Name": "GunSwitch"
+		},
+		{
+			"Id": "ParamSockSwitch",
+			"GroupId": "ParamGroup2",
+			"Name": "SockSwitch"
+		},
+		{
+			"Id": "ParamShoeSwitch",
+			"GroupId": "ParamGroup2",
+			"Name": "ShoeSwitch"
+		},
+		{
+			"Id": "SParamMenuSwitch",
+			"GroupId": "ParamGroup2",
+			"Name": "MenuSwitch"
+		},
+		{
+			"Id": "ParamEyeSwitch",
+			"GroupId": "ParamGroup2",
+			"Name": "EyeSwitch"
+		},
+		{
+			"Id": "ParamFaceSwitch",
+			"GroupId": "ParamGroup2",
+			"Name": "FaceSwitch"
+		},
+		{
+			"Id": "ParamMouthSwitch",
+			"GroupId": "ParamGroup2",
+			"Name": "MouthSwitch"
+		},
+		{
+			"Id": "ParamStar",
+			"GroupId": "",
+			"Name": "Star"
+		},
+		{
+			"Id": "Param_Angle_Rotation_1_bow",
+			"GroupId": "ParamGroup",
+			"Name": "[0]bow"
+		},
+		{
+			"Id": "Param_Angle_Rotation_2_bow",
+			"GroupId": "ParamGroup",
+			"Name": "[1]bow"
+		},
+		{
+			"Id": "Param_Angle_Rotation_3_bow",
+			"GroupId": "ParamGroup",
+			"Name": "[2]bow"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "Switch"
+		},
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "bow"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Menu",
+			"Name": "Menu"
+		},
+		{
+			"Id": "head",
+			"Name": "head"
+		},
+		{
+			"Id": "cloth",
+			"Name": "cloth"
+		},
+		{
+			"Id": "arms",
+			"Name": "arms"
+		},
+		{
+			"Id": "mouth",
+			"Name": "mouth"
+		},
+		{
+			"Id": "eyes",
+			"Name": "eyes"
+		},
+		{
+			"Id": "face",
+			"Name": "face"
+		},
+		{
+			"Id": "bow_Skinning",
+			"Name": "bow(蒙皮)"
+		},
+		{
+			"Id": "Part",
+			"Name": "bow(回转)"
+		},
+		{
+			"Id": "sleeve",
+			"Name": "sleeve"
+		},
+		{
+			"Id": "mainEyes",
+			"Name": "mainEyes"
+		},
+		{
+			"Id": "rightEye",
+			"Name": "rightEye"
+		},
+		{
+			"Id": "leftEye",
+			"Name": "leftEye"
+		}
+	]
+}

@@ -75,6 +75,7 @@ void LAppPal::UpdateTime()
 
 void LAppPal::PrintLog(const csmChar* format, ...)
 {
+    if (!DebugLogEnable) return;
     va_list args;
     csmChar buf[512];
     va_start(args, format);

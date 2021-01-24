@@ -12,6 +12,7 @@
 #include <ICubismModelSetting.hpp>
 #include <Type/csmRectF.hpp>
 #include <Rendering/OpenGL/CubismOffscreenSurface_OpenGLES2.hpp>
+#include <map>
 
 /**
  * @brief ユーザーが実際に使用するモデルの実装クラス<br>
@@ -106,7 +107,7 @@ public:
      * @param[in]   x               判定を行うX座標
      * @param[in]   y               判定を行うY座標
      */
-    virtual Csm::csmBool HitTest(const Csm::csmChar* hitAreaName, Csm::csmFloat32 x, Csm::csmFloat32 y);
+    virtual Csm::csmBool HitTest(Csm::csmFloat32 x, Csm::csmFloat32 y);
 
     /**
      * @brief   別ターゲットに描画する際に使用するバッファの取得
@@ -173,8 +174,9 @@ private:
     Csm::csmVector<Csm::CubismIdHandle> _lipSyncIds; ///< モデルに設定されたリップシンク機能用パラメータID
     Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _motions; ///< 読み込まれているモーションのリスト
     Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _expressions; ///< 読み込まれている表情のリスト
-    Csm::csmVector<Csm::csmRectF> _hitArea;
+    Csm::csmVector<Csm::csmString> _hitArea;
     Csm::csmVector<Csm::csmRectF> _userArea;
+    std::map<Csm::csmString, Csm::csmFloat32> _switchUpdateState;
     const Csm::CubismId* _idParamAngleX; ///< パラメータID: ParamAngleX
     const Csm::CubismId* _idParamAngleY; ///< パラメータID: ParamAngleX
     const Csm::CubismId* _idParamAngleZ; ///< パラメータID: ParamAngleX

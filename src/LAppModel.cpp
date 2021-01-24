@@ -367,8 +367,33 @@ void LAppModel::Update()
     //-----------------------------------------------------------------
     _model->LoadParameters(); // 前回セーブされた状態をロード
     if (firstUpdate) {
-        PartStateManager::GetInstance()->SetState();
+        //PartStateManager::GetInstance()->SetState();
         firstUpdate = false;
+    }
+
+    for (auto i = _switchUpdateState.begin(); i != _switchUpdateState.end();)
+    {
+        auto paramName = i->first;
+        auto paramId = CubismFramework::GetIdManager()->GetId(paramName);
+        auto targetVal = i->second;
+        auto now = _model->GetParameterValue(paramId);
+        LAppPal::PrintLog("Switch[%s][%f -> %f]", paramName, now,targetVal);
+        if (now < targetVal)
+        {
+            auto nextVal = now + 0.05;
+            _model->SetParameterValue(paramId, nextVal);
+        }
+        if (now > targetVal)
+        {
+            _model->SetParameterValue(paramId, targetVal);
+        }
+        if (abs(now - targetVal) < 0.05)
+        {
+            _switchUpdateState.erase(i++);
+        }
+        else {
+            ++i;
+        }
     }
     if (_motionManager->IsFinished())
     {
@@ -378,26 +403,26 @@ void LAppModel::Update()
         std::uniform_int_distribution<int> distribution(1, 1000);
         auto dice = std::bind(distribution, generator);
         
-        if (LAppDelegate::GetInstance()->IsIdle) { // 闲置状态
-            int r = dice();
-            if (r < 950) {
-                StartMotion(MotionGroupIdle, 0, PriorityIdle, NULL, true);
-                if (dice() < 15)AudioManager::GetInstance()->Play3dSound("Resources/Audio/i0" + std::to_string(dice() % IdleAudioNum + 2) + ".mp3");
-            }
-            else if (r < 990)StartMotion(MotionGroupIdle, 1, PriorityIdle, NULL, true);
-            else {
-                PartStateManager::GetInstance()->SaveState();
-                StartMotion(MotionGroupIdle, 2, PriorityIdle, FinishedMotion, true);
-            }
-        }
-        else { // 非闲置状态, 不播放声音和闲置动作3
-            if (dice() < 900) StartMotion(MotionGroupIdle, 0, PriorityIdle, NULL, true);
-            else StartMotion(MotionGroupIdle, 1, PriorityIdle, NULL, true);
-        }
+        //if (LAppDelegate::GetInstance()->IsIdle) { // 闲置状态
+        //    int r = dice();
+        //    if (r < 950) {
+        //        StartMotion(MotionGroupIdle, 0, PriorityIdle, NULL, true);
+        //        if (dice() < 15)AudioManager::GetInstance()->Play3dSound("Resources/Audio/i0" + std::to_string(dice() % IdleAudioNum + 2) + ".mp3");
+        //    }
+        //    else if (r < 990)StartMotion(MotionGroupIdle, 1, PriorityIdle, NULL, true);
+        //    else {
+        //        PartStateManager::GetInstance()->SaveState();
+        //        StartMotion(MotionGroupIdle, 2, PriorityIdle, FinishedMotion, true);
+        //    }
+        //}
+        //else { // 非闲置状态, 不播放声音和闲置动作3
+        //    if (dice() < 900) StartMotion(MotionGroupIdle, 0, PriorityIdle, NULL, true);
+        //    else StartMotion(MotionGroupIdle, 1, PriorityIdle, NULL, true);
+        //}
     }
     else
     {
-        motionUpdated = _motionManager->UpdateMotion(_model, deltaTimeSeconds); // モーションを更新
+        //motionUpdated = _motionManager->UpdateMotion(_model, deltaTimeSeconds); // モーションを更新
     }
     _model->SaveParameters(); // 状態を保存
     //-----------------------------------------------------------------
@@ -568,7 +593,7 @@ void LAppModel::Draw(CubismMatrix44& matrix)
     DoDraw();
 }
 
-csmBool LAppModel::HitTest(const csmChar* hitAreaName, csmFloat32 x, csmFloat32 y)
+csmBool LAppModel::HitTest(csmFloat32 x, csmFloat32 y)
 {
     // 透明時は当たり判定なし。
     if (_opacity < 1)
@@ -578,11 +603,26 @@ csmBool LAppModel::HitTest(const csmChar* hitAreaName, csmFloat32 x, csmFloat32 
     const csmInt32 count = _modelSetting->GetHitAreasCount();
     for (csmInt32 i = 0; i < count; i++)
     {
-    	//if (DebugLogEnable)LAppPal::PrintLog("Enter HitTest for [%d]%s | %s", i, _modelSetting->GetHitAreaName(i),hitAreaName);
-        if (strcmp(_modelSetting->GetHitAreaName(i), hitAreaName) == 0)
+        const CubismIdHandle drawID = _modelSetting->GetHitAreaId(i);
+        if (IsHit(drawID, x, y))
         {
-            const CubismIdHandle drawID = _modelSetting->GetHitAreaId(i);
-            return IsHit(drawID, x, y);
+            csmString paramName = _modelSetting->GetHitAreaName(i);
+            const Csm::CubismId* paramId = CubismFramework::GetIdManager()->GetId(paramName);
+            csmInt32 range = _modelSetting->GetHitAreaParamRange(i);
+            if (DebugLogEnable)LAppPal::PrintLog("Enter HitTest for [%d]%s for Param[%s] Range[%d]", i, _modelSetting->GetHitAreaIdString(i), _modelSetting->GetHitAreaName(i), range);
+            if (range != 0) {
+                csmInt32 now = ((csmInt32)_model->GetParameterValue(paramId)+1) % range;
+                LAppPal::PrintLog("ParamValue Before: [%f] Target to [%d]", _model->GetParameterValue(paramId),now);
+
+                if (_switchUpdateState.find(paramName) != _switchUpdateState.end())
+                {
+                    return true;
+                }
+                else {
+                    _switchUpdateState.insert(pair<csmString,csmFloat32>(paramName,now));
+                }
+            }
+            return true;
         }
     }
     return false; // 存在しない場合はfalse

@@ -33,47 +33,13 @@ namespace LAppDefine {
     // モデルを配置したディレクトリ名の配列
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと
     const csmChar* ModelDir[] = {
-        "joi"
+        "Joi001"
     };
     const csmInt32 ModelDirSize = sizeof(ModelDir) / sizeof(const csmChar*);
 
     const csmInt32 StartAudioNum = 9;
     const csmInt32 IdleAudioNum = 7;
     const csmInt32 TouchAudioNum = 5;
-
-    // 外部定義ファイル(json)と合わせる
-    const csmChar* MotionGroupIdle = "Idle"; // アイドリング
-    const csmChar* MotionGroupTapHead = "HeadMotion"; // 体をタップしたとき
-    const csmChar* MotionGroupTapEar = "EarMotion";
-    const csmChar* MotionGroupTapArm = "ArmMotion";
-    const csmChar* MotionGroupClothChange = "ClothChange";
-    const csmChar* MotionGroupMouthChange = "MouthChange";
-    const csmChar* MotionGroupFaceChange = "FaceChange";
-    const csmChar* MotionGroupEyeChange = "EyeChange";
-    const csmChar* MotionGroupPartChange = "PartChange";
-    const csmChar* MotionGroupSpecial = "SpecialMotion";
-
-    // 外部定義ファイル(json)と合わせる
-    const csmChar* HitAreaNameHead = "AreaHead";
-    const csmChar* HitAreaNameBody = "AreaBody";
-    const int GunChangeList[2] = { 14,13 };
-    const csmChar* HitAreaNameMouth = "AreaMouth";
-    const csmChar* HitAreaNameWanzi = "AreaWanzi";
-    const int EditChangeList[2] = { 16,15 };
-    const csmChar* HitAreaNameArmL = "AreaArmL";
-    const csmChar* HitAreaNameArmR = "AreaArmR";
-    const int SleeveChangeList[2] = { 11,12 };
-    const csmChar* HitAreaNameLegs = "AreaLegs";
-    const int SocksChangeList[2] = { 2,3 };
-    const csmChar* HitAreaNameHat = "AreaHat";
-    const int HatChangeList[3] = { 0,1,8 };
-    const csmChar* HitAreaNameEarL = "AreaEarL";
-    const int EarLChangeList[2] = { 4,5 };
-    const csmChar* HitAreaNameLegBelt = "AreaLegBelt";
-    const int LegBeltChangeList[2] = { 6,7 };
-    const csmChar* HitAreaNameChange = "AreaChange";
-    const csmChar* HitAreaNameEyes = "AreaEyes";
-    const csmChar* HitAreaNameTail = "AreaTail";
 
     // モーションの優先度定数
     const csmInt32 PriorityNone = 0;

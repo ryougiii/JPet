@@ -46,3 +46,4 @@ lib/
 
 # live2d
 *.can3
+/x64/Debug/ALL_BUILD

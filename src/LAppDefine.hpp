@@ -46,39 +46,6 @@ extern const csmInt32 StartAudioNum;
 extern const csmInt32 IdleAudioNum;
 extern const csmInt32 TouchAudioNum;
 
-// 外部定義ファイル(json)と合わせる
-extern const csmChar *MotionGroupIdle;    ///< アイドリング時に再生するモーションのリスト
-extern const csmChar *MotionGroupTapHead; ///< 体をタップした時に再生するモーションのリスト
-extern const csmChar *MotionGroupTapEar;
-extern const csmChar* MotionGroupTapArm;
-extern const csmChar *MotionGroupClothChange;
-extern const csmChar *MotionGroupMouthChange;
-extern const csmChar *MotionGroupFaceChange;
-extern const csmChar* MotionGroupEyeChange;
-extern const csmChar *MotionGroupPartChange;
-extern const csmChar* MotionGroupSpecial;
-// 外部定義ファイル(json)と合わせる
-extern const csmChar *HitAreaNameHead;  ///< 当たり判定の[Head]タグ
-extern const csmChar *HitAreaNameBody;  ///< 当たり判定の[Body]タグ
-extern const int GunChangeList[2];
-extern const csmChar *HitAreaNameMouth; ///< 当たり判定の[Mouth]タグ
-extern const csmChar *HitAreaNameWanzi;
-extern const int EditChangeList[2];
-extern const csmChar *HitAreaNameArmL;
-extern const csmChar *HitAreaNameArmR;
-extern const int SleeveChangeList[2];
-extern const csmChar *HitAreaNameLegs;
-extern const int SocksChangeList[2];
-extern const csmChar *HitAreaNameHat;
-extern const int HatChangeList[3];
-extern const csmChar* HitAreaNameEarL;
-extern const int EarLChangeList[2];
-extern const csmChar* HitAreaNameLegBelt;
-extern const int LegBeltChangeList[2];
-extern const csmChar* HitAreaNameChange;
-extern const csmChar* HitAreaNameEyes;
-extern const csmChar* HitAreaNameTail;
-
 // モーションの優先度定数
 extern const csmInt32 PriorityNone;   ///< モーションの優先度定数: 0
 extern const csmInt32 PriorityIdle;   ///< モーションの優先度定数: 1
