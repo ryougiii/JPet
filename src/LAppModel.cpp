@@ -398,10 +398,10 @@ void LAppModel::Update()
     if (_motionManager->IsFinished())
     {
         // モーションの再生がない場合、待機モーションの中からランダムで再生する
-        std::random_device rd;
-        std::mt19937 generator(rd());
-        std::uniform_int_distribution<int> distribution(1, 1000);
-        auto dice = std::bind(distribution, generator);
+        //std::random_device rd;
+        //std::mt19937 generator(rd());
+        //std::uniform_int_distribution<int> distribution(1, 1000);
+        //auto dice = std::bind(distribution, generator);
         
         //if (LAppDelegate::GetInstance()->IsIdle) { // 闲置状态
         //    int r = dice();
