@@ -66,7 +66,7 @@ LAppLive2DManager::LAppLive2DManager()
 	, _isNew(true)
 	, _mouthCount(0)
 {
-    ChangeScene(_sceneIndex);
+    ChangeScene(DefaultModelName);
 }
 
 LAppLive2DManager::~LAppLive2DManager()
@@ -135,22 +135,12 @@ void LAppLive2DManager::PlayRandomTouchAudio() {
 
 void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
 {
-    //TODO: 添加动作表情和声音
     if (DebugLogEnable)
     {
         LAppPal::PrintLog("[APP]tap point: {x:%.2f y:%.2f}", x, y);
     }
     CubismMotionQueueEntryHandle hr;
     _models[_sceneIndex]->HitTest(x, y);
-    //if (_models[i]->HitTest(HitAreaNameChange, x, y))
-    //{
-    //    if (DebugLogEnable)
-    //    {
-    //        LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameChange);
-    //    }
-    //    hr = _models[i]->StartMotion(MotionGroupClothChange, _isNew ? 0 : 1, PriorityForce, PartFinishedMotion);
-    //    if (hr != InvalidMotionQueueEntryHandleValue) _isNew = !_isNew;
-    //}
 }
 
 void LAppLive2DManager::OnUpdate() const
@@ -184,13 +174,11 @@ void LAppLive2DManager::OnUpdate() const
 
 void LAppLive2DManager::NextScene()
 {
-    csmInt32 no = (_sceneIndex + 1) % ModelDirSize;
-    ChangeScene(no);
+    return;
 }
 
-void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
+void LAppLive2DManager::ChangeScene(std::string model)
 {
-    _sceneIndex = index;
     if (DebugLogEnable)
     {
         LAppPal::PrintLog("[APP]model index: %d", _sceneIndex);
@@ -199,10 +187,15 @@ void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
     // ModelDir[]に保持したディレクトリ名から
     // model3.jsonのパスを決定する.
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと.
-    std::string model = ModelDir[index];
     std::string modelPath = ResourcesPath + string("Models/") + model + string("/");
     std::string modelJsonName = model + ".model3.json";
-
+    // 检查新模型文件是否存在。
+    std::string modelJsonPath = modelPath + modelJsonName;
+    bool fileExist = LAppPal::CheckFileExist(modelJsonPath);
+    if (!fileExist) {
+        LAppPal::PrintLog("[LAppLive2DManager] >> %s is not exist.", modelJsonPath.c_str());
+        return;
+    }
     ReleaseAllModel();
     _models.PushBack(new LAppModel());
     _models[0]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());

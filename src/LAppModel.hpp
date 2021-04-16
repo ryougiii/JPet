@@ -175,6 +175,7 @@ private:
     Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _motions; ///< 読み込まれているモーションのリスト
     Csm::csmMap<Csm::csmString, Csm::ACubismMotion*>   _expressions; ///< 読み込まれている表情のリスト
     Csm::csmVector<Csm::csmString> _hitArea;
+    Csm::csmBool _editMode;
     Csm::csmVector<Csm::csmRectF> _userArea;
     std::map<Csm::csmString, Csm::csmFloat32> _switchUpdateState;
     const Csm::CubismId* _idParamAngleX; ///< パラメータID: ParamAngleX

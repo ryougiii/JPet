@@ -30,6 +30,8 @@ public:
     */
     static Csm::csmByte* LoadFileAsBytes(const std::string filePath, Csm::csmSizeInt* outSize);
 
+    static bool CheckFileExist(const std::string& path);
+
 
     /**
     * @brief バイトデータを解放する

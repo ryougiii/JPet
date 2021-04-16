@@ -32,6 +32,7 @@ namespace LAppDefine {
     // モデル定義------------------------------------------
     // モデルを配置したディレクトリ名の配列
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと
+    const csmChar* DefaultModelName = "Joi001";
     const csmChar* ModelDir[] = {
         "Joi001"
     };

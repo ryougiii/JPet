@@ -85,7 +85,7 @@ public:
     * @brief   シーンを切り替える<br>
     *           サンプルアプリケーションではモデルセットの切り替えを行う。
     */
-    void ChangeScene(Csm::csmInt32 index);
+    void ChangeScene(std::string model);
 
     void PlayTouchAudio(std::string filename);
 

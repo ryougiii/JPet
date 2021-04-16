@@ -25,6 +25,7 @@
 #include "LAppDelegate.hpp"
 #include "AudioManager.hpp"
 #include "PartStateManager.h"
+#include "LAppLive2DManager.hpp"
 
 using namespace Live2D::Cubism::Framework;
 using namespace Live2D::Cubism::Framework::DefaultParameterId;
@@ -61,6 +62,7 @@ LAppModel::LAppModel()
     : CubismUserModel()
     , _modelSetting(NULL)
     , _userTimeSeconds(0.0f)
+    , _editMode(false)
 {
     if (DebugLogEnable)
     {
@@ -377,7 +379,6 @@ void LAppModel::Update()
         auto paramId = CubismFramework::GetIdManager()->GetId(paramName);
         auto targetVal = i->second;
         auto now = _model->GetParameterValue(paramId);
-        LAppPal::PrintLog("Switch[%s][%f -> %f]", paramName, now,targetVal);
         if (now < targetVal)
         {
             auto nextVal = now + 0.05;
@@ -604,25 +605,46 @@ csmBool LAppModel::HitTest(csmFloat32 x, csmFloat32 y)
     for (csmInt32 i = 0; i < count; i++)
     {
         const CubismIdHandle drawID = _modelSetting->GetHitAreaId(i);
-        if (IsHit(drawID, x, y))
+        csmString hitAreaName = _modelSetting->GetHitAreaIdString(i);
+        csmString paramName = _modelSetting->GetHitAreaName(i);
+        const csmChar* paramSuffix = (paramName.GetRawString() + paramName.GetLength() - 6);
+        const csmChar* areaNameSuffix = (hitAreaName.GetRawString() + hitAreaName.GetLength() - 6);
+        // 处理HitArea中Switch事件；这里在json文件中添加了Range参数，并将Name作为需要处理的Parameter。
+        if (strcmp(paramSuffix, "Switch") == 0)
         {
-            csmString paramName = _modelSetting->GetHitAreaName(i);
-            const Csm::CubismId* paramId = CubismFramework::GetIdManager()->GetId(paramName);
-            csmInt32 range = _modelSetting->GetHitAreaParamRange(i);
-            if (DebugLogEnable)LAppPal::PrintLog("Enter HitTest for [%d]%s for Param[%s] Range[%d]", i, _modelSetting->GetHitAreaIdString(i), _modelSetting->GetHitAreaName(i), range);
-            if (range != 0) {
-                csmInt32 now = ((csmInt32)_model->GetParameterValue(paramId)+1) % range;
-                LAppPal::PrintLog("ParamValue Before: [%f] Target to [%d]", _model->GetParameterValue(paramId),now);
-
-                if (_switchUpdateState.find(paramName) != _switchUpdateState.end())
-                {
-                    return true;
+            // 编辑模式下，各部件的开关。
+            bool isEditChangeArea = (strcmp(hitAreaName.GetRawString(), "HitAreaChange") == 0);
+            if ((_editMode || isEditChangeArea) && IsHit(drawID, x, y))
+            {
+                const Csm::CubismId* paramId = CubismFramework::GetIdManager()->GetId(paramName);
+                csmInt32 range = _modelSetting->GetHitAreaParamRange(i);
+                if (range != 0) {
+                    csmInt32 now = ((csmInt32)_model->GetParameterValue(paramId) + 1) % range;
+                    if (_switchUpdateState.find(paramName) != _switchUpdateState.end())
+                    {
+                        return true;
+                    }
+                    else {
+                        _switchUpdateState.insert(pair<csmString, csmFloat32>(paramName, now));
+                        if (isEditChangeArea)
+                        {
+                            _editMode = !_editMode;
+                        }
+                    }
                 }
-                else {
-                    _switchUpdateState.insert(pair<csmString,csmFloat32>(paramName,now));
-                }
+                return true;
             }
-            return true;
+        }
+        // 处理HitArea中的Cloth事件，最后加个s是为了保持后缀长度一致，便于比较。在json文件中，HitArea部分的Name被用于记录对应的模型文件名称。
+        if (strcmp(areaNameSuffix, "Cloths") == 0)
+        {
+            if (IsHit(drawID, x, y))
+            {
+                //Todo: 保存当前模型状态、切换模型。
+                LAppPal::PrintLog("[LAppModel]Change Model[%s]", paramName.GetRawString());
+                LAppLive2DManager::GetInstance()->ChangeScene(paramName.GetRawString());
+                return true;
+            }
         }
     }
     return false; // 存在しない場合はfalse

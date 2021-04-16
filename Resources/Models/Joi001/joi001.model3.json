@@ -17,8 +17,21 @@
 	],
 	"HitAreas": [
 		{
+			"Id": "HitArea01Cloths",
+			"Name": "Joi001",
+		},
+		 {
+			"Id": "HitArea02Cloths",
+			"Name": "natori_pro_t04",
+		},
+		{
+			"Id": "HitArea03Cloths",
+			"Name": "Joi003",
+		},
+		{
 			"Id": "HitAreaChange",
-			"Name": ""
+			"Name": "SParamMenuSwitch",
+			"Range": 2
 		},
 		{
 			"Id": "HitAreaEyes",

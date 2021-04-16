@@ -39,6 +39,7 @@ extern const csmChar *GearImageName;  ///< 歯車画像ファイル
 extern const csmChar *PowerImageName; ///< 終了ボタン画像ファイル
 
 // モデル定義--------------------------------------------
+extern const csmChar* DefaultModelName;
 extern const csmChar *ModelDir[];   ///< モデルを配置したディレクトリ名の配列. ディレクトリ名とmodel3.jsonの名前を一致させておく.
 extern const csmInt32 ModelDirSize; ///< モデルディレクトリ配列のサイズ
 

@@ -56,6 +56,17 @@ csmByte* LAppPal::LoadFileAsBytes(const string filePath, csmSizeInt* outSize)
     return reinterpret_cast<csmByte*>(buf);
 }
 
+bool LAppPal::CheckFileExist(const std::string& path) {
+    const char* filePath = path.c_str();
+    std::fstream file;
+    file.open(filePath, std::ios::in | std::ios::binary);
+    if (!file.is_open()) {
+        return false;
+    }
+    file.close();
+    return true;
+}
+
 void LAppPal::ReleaseBytes(csmByte* byteData)
 {
     delete[] byteData;
