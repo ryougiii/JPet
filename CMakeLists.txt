@@ -132,7 +132,7 @@ target_link_libraries(${APP_NAME}
 )
 # Specify include directories.
 target_include_directories(${APP_NAME} PRIVATE ${STB_PATH} ${FMOD_PATH}/inc ${TOAST_PATH}/src ${HTTP_PATH} ${OPENSSL_PATH}/include ${JSON_PATH}/include)
-target_link_directories(${APP_NAME} PRIVATE ${FMOD_PATH}/lib/${ARCH}/ ${OPENSSL_PATH}/lib)
+target_link_directories(${APP_NAME} PRIVATE ${FMOD_PATH}/lib/x64/ ${OPENSSL_PATH}/lib)
 # Build in multi-process.
 target_compile_options(${APP_NAME} PRIVATE /MP)
 
@@ -140,9 +140,10 @@ target_compile_options(${APP_NAME} PRIVATE /MP)
 add_custom_command(
   TARGET ${APP_NAME}
   POST_BUILD
-  COMMAND
-    ${CMAKE_COMMAND} -E
-      copy_directory ${RES_PATH} $<TARGET_FILE_DIR:${APP_NAME}>/Resources
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${RES_PATH} $<TARGET_FILE_DIR:${APP_NAME}>/Resources
+  COMMAND ${CMAKE_COMMAND} -E copy ${SDK_ROOT_PATH}/thirdParty/fmod/lib/x64/fmod.dll $<TARGET_FILE_DIR:${APP_NAME}>/
+  COMMAND ${CMAKE_COMMAND} -E copy ${SDK_ROOT_PATH}/thirdParty/OpenSSL/bin/libssl-3-x64.dll $<TARGET_FILE_DIR:${APP_NAME}>/
+  COMMAND ${CMAKE_COMMAND} -E copy ${SDK_ROOT_PATH}/thirdParty/OpenSSL/bin/libcrypto-3-x64.dll $<TARGET_FILE_DIR:${APP_NAME}>/
 )
 
 # Set project properties.

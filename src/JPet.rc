@@ -52,7 +52,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                    "C:\\Users\\xinre\\Desktop\\joipetl2d\\assets\\logo.ico"
+IDI_ICON1               ICON                    "C:\\ProgramData\\Lenovo\\devicecenter\\DisplayIcons\\0F8C7D4BAE549BEE95AD7E2E382EF523.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////

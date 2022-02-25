@@ -28,11 +28,13 @@ namespace LAppDefine {
     // 相対パス
     const csmChar* ResourcesPath = "Resources/";
     const csmChar* OptionImg = "Img/message.png";
+    const csmChar* WaterImg = "Img/water.png";
 
     // モデル定義------------------------------------------
     // モデルを配置したディレクトリ名の配列
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと
     const csmChar* DefaultModelName = "Joi001";
+    const csmChar* hiyoriModelName = "Hiyori";
     const csmChar* ModelDir[] = {
         "Joi001"
     };

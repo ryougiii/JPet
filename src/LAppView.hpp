@@ -154,6 +154,7 @@ private:
     Csm::CubismViewMatrix* _viewMatrix;      ///< viewMatrix
     GLuint _programId;                       ///< シェーダID
     LAppSprite* _msg;                       ///< 背景画像
+    LAppSprite* _watermsg;                       ///< 背景画像
     LAppSprite* _gear;                       ///< ギア画像
     LAppSprite* _power;                      ///< 電源画像
 

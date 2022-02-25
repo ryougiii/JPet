@@ -19,20 +19,20 @@
 #include "LAppView.hpp"
 #include "PartStateManager.h"
 
-
 using namespace Csm;
 using namespace LAppDefine;
 using namespace std;
 
-namespace {
-    LAppLive2DManager* s_instance = NULL;
+namespace
+{
+    LAppLive2DManager *s_instance = NULL;
 
-    void FinishedMotion(ACubismMotion* self)
+    void FinishedMotion(ACubismMotion *self)
     {
         LAppDelegate::GetInstance()->InMotion = false;
         LAppPal::PrintLog("Motion Finished: %x", self);
     }
-    void PartFinishedMotion(ACubismMotion* self)
+    void PartFinishedMotion(ACubismMotion *self)
     {
         LAppDelegate::GetInstance()->InMotion = false;
         LAppPal::PrintLog("Part Change Finished: %x", self);
@@ -40,7 +40,7 @@ namespace {
     }
 }
 
-LAppLive2DManager* LAppLive2DManager::GetInstance()
+LAppLive2DManager *LAppLive2DManager::GetInstance()
 {
     if (s_instance == NULL)
     {
@@ -61,12 +61,10 @@ void LAppLive2DManager::ReleaseInstance()
 }
 
 LAppLive2DManager::LAppLive2DManager()
-    : _viewMatrix(NULL)
-    , _sceneIndex(0)
-	, _isNew(true)
-	, _mouthCount(0)
+    : _viewMatrix(NULL), _sceneIndex(0), _isNew(true), _mouthCount(0)
 {
-    ChangeScene(DefaultModelName);
+    ChangeScene(hiyoriModelName);
+    // ChangeScene(DefaultModelName);
 }
 
 LAppLive2DManager::~LAppLive2DManager()
@@ -84,7 +82,7 @@ void LAppLive2DManager::ReleaseAllModel()
     _models.Clear();
 }
 
-LAppModel* LAppLive2DManager::GetModel(csmUint32 no) const
+LAppModel *LAppLive2DManager::GetModel(csmUint32 no) const
 {
     if (no < _models.GetSize())
     {
@@ -98,13 +96,14 @@ void LAppLive2DManager::OnDrag(csmFloat32 x, csmFloat32 y) const
 {
     for (csmUint32 i = 0; i < _models.GetSize(); i++)
     {
-        LAppModel* model = GetModel(i);
+        LAppModel *model = GetModel(i);
 
         model->SetDragging(x, y);
     }
 }
 
-void LAppLive2DManager::OnFollow() {
+void LAppLive2DManager::OnFollow()
+{
     if (DebugLogEnable)
     {
         LAppPal::PrintLog("[APP]New Follow");
@@ -112,21 +111,25 @@ void LAppLive2DManager::OnFollow() {
     // _models[0]->StartRandomMotion(MotionGroupSpecial, PriorityForce, FinishedMotion);
 }
 
-void LAppLive2DManager::PlayTouchAudio(string filename) {
+void LAppLive2DManager::PlayTouchAudio(string filename)
+{
     std::random_device rd;
     std::mt19937 generator(rd());
     std::uniform_int_distribution<int> d1(1, 100);
-    if (d1(generator) > 70) {
+    if (d1(generator) > 70)
+    {
         // 播放特定语音
         AudioManager::GetInstance()->Play3dSound("Resources/Audio/" + filename);
     }
-    else {
+    else
+    {
         // 播放一般语音
         PlayRandomTouchAudio();
     }
 }
 
-void LAppLive2DManager::PlayRandomTouchAudio() {
+void LAppLive2DManager::PlayRandomTouchAudio()
+{
     std::random_device rd;
     std::mt19937 generator(rd());
     std::uniform_int_distribution<int> d(1, TouchAudioNum);
@@ -148,27 +151,26 @@ void LAppLive2DManager::OnUpdate() const
     CubismMatrix44 projection;
     int width, height;
     glfwGetWindowSize(LAppDelegate::GetInstance()->GetWindow(), &width, &height);
-    //float ratio = static_cast<float>(modelWidth) / width;
-    //float ty = (static_cast<float>(height) - modelHeight) / height;
-    //projection.Scale(1.0f, static_cast<float>(width) / static_cast<float>(height));
-    //projection.ScaleRelative(ratio,ratio);
-    //projection.TranslateY(-ty);
-    
+    // float ratio = static_cast<float>(modelWidth) / width;
+    // float ty = (static_cast<float>(height) - modelHeight) / height;
+    // projection.Scale(1.0f, static_cast<float>(width) / static_cast<float>(height));
+    // projection.ScaleRelative(ratio,ratio);
+    // projection.TranslateY(-ty);
 
     if (_viewMatrix != NULL)
     {
-    //    projection.MultiplyByMatrix(_viewMatrix);
+        //    projection.MultiplyByMatrix(_viewMatrix);
     }
 
-    const CubismMatrix44    saveProjection = projection;
+    const CubismMatrix44 saveProjection = projection;
     csmUint32 modelCount = _models.GetSize();
     for (csmUint32 i = 0; i < modelCount; ++i)
     {
-        LAppModel* model = GetModel(i);
+        LAppModel *model = GetModel(i);
         projection = saveProjection;
-        projection.Scale(2, 2);
+        projection.Scale(1,1);
         model->Update();
-        model->Draw(projection);///< 参照渡しなのでprojectionは変質する
+        model->Draw(projection); ///< 参照渡しなのでprojectionは変質する
     }
 }
 
@@ -192,7 +194,8 @@ void LAppLive2DManager::ChangeScene(std::string model)
     // 检查新模型文件是否存在。
     std::string modelJsonPath = modelPath + modelJsonName;
     bool fileExist = LAppPal::CheckFileExist(modelJsonPath);
-    if (!fileExist) {
+    if (!fileExist)
+    {
         LAppPal::PrintLog("[LAppLive2DManager] >> %s is not exist.", modelJsonPath.c_str());
         return;
     }
@@ -227,7 +230,7 @@ void LAppLive2DManager::ChangeScene(std::string model)
         LAppDelegate::GetInstance()->GetView()->SwitchRenderingTarget(useRenderTarget);
 
         // 別レンダリング先を選択した際の背景クリア色
-        float clearColor[3] = { 0.0f, 0.0f, 0.0f };
+        float clearColor[3] = {0.0f, 0.0f, 0.0f};
         LAppDelegate::GetInstance()->GetView()->SetRenderTargetClearColor(clearColor[0], clearColor[1], clearColor[2]);
     }
 }
